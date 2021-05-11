@@ -554,6 +554,9 @@ static int pwm_backlight_probe(struct platform_device *pdev)
 	if (!state.period && (data->pwm_period_ns > 0))
 		state.period = data->pwm_period_ns;
 
+	state.enabled = 1;
+	state.duty_cycle = 50000;
+
 	ret = pwm_apply_state(pb->pwm, &state);
 	if (ret) {
 		dev_err(&pdev->dev, "failed to apply initial PWM state: %d\n",

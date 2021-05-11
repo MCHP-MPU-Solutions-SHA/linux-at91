@@ -761,7 +761,8 @@ static int atmel_hlcdc_dc_load(struct drm_device *dev)
 	ret = atmel_hlcdc_dc_modeset_init(dev);
 	if (ret < 0) {
 		dev_err(dev->dev, "failed to initialize mode setting\n");
-		goto err_periph_clk_disable;
+		//goto err_periph_clk_disable;
+		goto err_destroy_wq;
 	}
 
 	drm_mode_config_reset(dev);

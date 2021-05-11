@@ -440,6 +440,7 @@ static void atmel_hlcdc_plane_update_buffers(struct atmel_hlcdc_plane *plane,
 {
 	const struct atmel_hlcdc_layer_desc *desc = plane->layer.desc;
 	struct drm_framebuffer *fb = state->base.fb;
+	static int force_update = 1;
 	u32 sr;
 	int i;
 
@@ -454,7 +455,8 @@ static void atmel_hlcdc_plane_update_buffers(struct atmel_hlcdc_plane *plane,
 					    ATMEL_HLCDC_LAYER_PLANE_HEAD(i),
 					    state->dscrs[i]->self);
 
-		if (!(sr & ATMEL_HLCDC_LAYER_EN)) {
+		if ((!(sr & ATMEL_HLCDC_LAYER_EN)) || force_update) {
+			force_update = 0;
 			atmel_hlcdc_layer_write_reg(&plane->layer,
 					ATMEL_HLCDC_LAYER_PLANE_ADDR(i),
 					state->dscrs[i]->addr);
